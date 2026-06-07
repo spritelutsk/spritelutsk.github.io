@@ -1,38 +1,29 @@
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Приветствие</title>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
+index.html
+        document.getElementById("greeting").style.display = "block";
       }
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-family: Arial, sans-serif;
-        background: #f7f9fc;
-      }
-      h1 {
-        margin: 0;
-        font-size: 3rem;
-        color: #333;
-      }
-      p {
-        margin: 0.5rem 0 0;
-        font-size: 1.2rem;
-        color: #555;
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <h1>Привет!</h1>
-      <p>Добро пожаловать на страницу.</p>
-    </div>
+
+      // Проверяем наличие файла ip.txt
+      fetch("ip.txt", { cache: "no-store" })
+        .then(function (response) {
+          if (!response.ok) {
+            // Файл не найден — показываем приветствие
+            throw new Error("ip.txt не найден");
+          }
+          return response.text();
+        })
+        .then(function (text) {
+          var ip = text.trim();
+          if (!ip) {
+            throw new Error("ip.txt пустой");
+          }
+          // Перенаправляемся по адресу из файла
+          var url = /^https?:\/\//i.test(ip) ? ip : "http://" + ip;
+          window.location.href = url;
+        })
+        .catch(function () {
+          // Файла нет или произошла ошибка — выводим приветствие
+          showGreeting();
+        });
+    </script>
   </body>
 </html>
